@@ -1,17 +1,18 @@
 # Jira connect
 
-Used to store credentials for later use by other Jira Actions
+This project is forked from https://github.com/atlassian/gajira-login
 
-For examples on how to use this, check out the [gajira-demo](https://github.com/atlassian/gajira-demo) repository
-> ##### Only supports Jira Cloud. Does not support Jira Server (hosted)
+Please use the offical project if possible, unless you are having same troubles:
 
-This is required by other actions like:
-- [`Transition`](https://github.com/marketplace/actions/jira-transition) - Transition a Jira issue
-- [`Comment`](https://github.com/marketplace/actions/jira-comment) - Add a comment to a Jira issue
-- [`Create`](https://github.com/marketplace/actions/jira-create) - Create a new Jira issue
-- [`Find issue key`](https://github.com/marketplace/actions/jira-find) - Search for an issue key in commit message, branch name, etc. This issue key is then saved and used by the next actions in the same workflow
-- [`TODO`](https://github.com/marketplace/actions/jira-todo) - Create a Jira issue for each TODO comment in committed code
-- [`CLI`](https://github.com/marketplace/actions/jira-cli) - Wrapped [go-jira](https://github.com/Netflix-Skunkworks/go-jira) CLI for common Jira actions
+* With Jira Server and API V2
+* Using [Personal Access Tokens (PAT)](https://confluence.atlassian.com/enterprise/using-personal-access-tokens-1026032365.html)
+
+## What this project can do
+
+* This is a `Github action` project
+* Store Jira login credentials for later user by other Github Jira actions
+* Use Personal Access Tokens (PAT) instead of password or API token
+* Not support Jira cloud now, please try offical project
 
 ## Usage
 An example workflow to create a Jira issue for each `//TODO` in code:
@@ -26,26 +27,16 @@ jobs:
     runs-on: ubuntu-latest
     name: Jira Example
     steps:
-    - name: Login
-      uses: atlassian/gajira-login@master
+    - name: Jira connect
+      uses: govcms-extras/github-action-jira-connect@main
       env:
         JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
         JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
         JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
-
-    - name: Jira TODO
-      uses: atlassian/gajira-todo@master
-      with:
-        project: GA
-        issuetype: Task
-        description: Created automatically via GitHub Actions
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-More examples at [gajira-demo](https://github.com/atlassian/gajira-demo) repository
-
 ----
+
 ## Action Spec:
 
 ### Enviroment variables
